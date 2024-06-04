@@ -6,13 +6,13 @@ export default class Raumschiff {
   posX: number;
   posY: number;
   kapitaen: Kapitaen;
-  player: HTMLDivElement;
+  player?: HTMLDivElement;
   constructor(
     name: string,
     posX: number,
     posY: number,
     kapitaen: Kapitaen,
-    player: HTMLDivElement
+    player?: HTMLDivElement
   ) {
     this.name = name;
     this.posX = posX;
@@ -20,7 +20,7 @@ export default class Raumschiff {
     this.kapitaen = kapitaen;
     this.player = player;
 
-    document.addEventListener("keydown", (event) => this.fliegen(event.key), true);
+    document.addEventListener("keydown", (event) => this.rotate(event.key), true);
   }
 
   getName() {
@@ -39,21 +39,21 @@ export default class Raumschiff {
     return this.kapitaen;
   }
 
-  fliegen(richtung: string): void {
-    console.log(this.player);
+  currentAngle = 0.25;
+
+  rotate(input: string) {
     if (!this.player) return;
 
-    const playerRect = this.player.getBoundingClientRect();
+    const changeRate = 0.02;
 
-    if (richtung === "a") {
-      this.player.style.left = `${playerRect.x - 10}px`;
-    } else if (richtung === "d") {
-      this.player.style.left = `${playerRect.x + 10}px`;
-    } else if (richtung === "w") {
-      this.player.style.top = `${playerRect.y - 10}px`;
-    } else if (richtung === "s") {
-      this.player.style.top = `${playerRect.y + 10}px`;
+    if (input === "w") {
+      this.currentAngle -= changeRate;
+    } else if (input === "s") {
+      this.currentAngle += changeRate;
     }
+
+    console.log(this.currentAngle);
+    this.player.style.transform = `rotate(${this.currentAngle}turn)`;
   }
 
   pruefeKoordniaten(posX: number, posY: number): boolean {
