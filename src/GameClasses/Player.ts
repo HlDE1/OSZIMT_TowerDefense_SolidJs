@@ -1,25 +1,19 @@
 import Kapitaen from "./Kapitaen";
 import { onMount } from "solid-js";
 
-export default class Raumschiff {
+export default class Player {
   name: string;
   posX: number;
   posY: number;
-  kapitaen: Kapitaen;
   player?: HTMLDivElement;
-  constructor(
-    name: string,
-    posX: number,
-    posY: number,
-    kapitaen: Kapitaen,
-    player?: HTMLDivElement
-  ) {
+  //TODO: weapons
+  weapons?: any[];
+  selectedWeapon?: any;
+  constructor(name: string, posX: number, posY: number, player?: HTMLDivElement) {
     this.name = name;
     this.posX = posX;
     this.posY = posY;
-    this.kapitaen = kapitaen;
     this.player = player;
-
     document.addEventListener("keydown", (event) => this.rotate(event.key), true);
   }
 
@@ -33,10 +27,6 @@ export default class Raumschiff {
 
   getPosY() {
     return this.posY;
-  }
-
-  getKapitaen() {
-    return this.kapitaen;
   }
 
   currentAngle = 0.25;
