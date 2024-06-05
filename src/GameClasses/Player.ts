@@ -1,5 +1,4 @@
-import Kapitaen from "./Kapitaen";
-import { onMount } from "solid-js";
+import styles from "./Player.module.css";
 
 export default class Player {
   name: string;
@@ -10,15 +9,24 @@ export default class Player {
   weapons?: any[];
   selectedWeapon?: any;
   currentAngle = 0.25;
-
-  constructor(name: string, posX: number, posY: number, player?: HTMLDivElement) {
+  area: HTMLDivElement;
+  constructor(
+    name: string,
+    posX: number,
+    posY: number,
+    player: HTMLDivElement,
+    area: HTMLDivElement
+  ) {
     this.name = name;
     this.posX = posX;
     this.posY = posY;
     this.player = player;
+    this.area = area;
+    this.spawnWeapon();
     document.addEventListener("keydown", (event) => this.rotate(event.key), true);
   }
 
+  //
   getName() {
     return this.name;
   }
@@ -45,7 +53,11 @@ export default class Player {
     this.player.style.transform = `rotate(${this.currentAngle}turn)`;
   }
 
-  pruefeKoordniaten(posX: number, posY: number): boolean {
-    return this.posX === posX && this.posY === posY;
+  spawnWeapon() {
+    const weaponElement = document.createElement("div");
+    weaponElement.classList.add(styles.WeaponStyle);
+
+    this.area.appendChild(weaponElement);
   }
+  attack() {}
 }

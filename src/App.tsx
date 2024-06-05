@@ -6,28 +6,21 @@ import NPC_Img from "./assets/ground_shaker_asset/Camo/Bodies/body_tracks.png";
 import Player from "./GameClasses/Player";
 import NonPlayableCharacter from "./GameClasses/NonPlayableCharacter";
 
+let area!: HTMLDivElement;
 let playerElement!: HTMLImageElement;
 let npcElement!: HTMLImageElement;
 let npcArea!: HTMLImageElement;
 
-function SpawnNPC() {
-  const npcAreaRect = npcArea.getBoundingClientRect();
-  const npcPadding = 20;
-  npcElement.style.left = `${npcAreaRect.width - npcElement.clientWidth + npcPadding}px`;
-}
-
 const App: Component = () => {
   onMount(() => {
-    const esoNovaShip = new Player("Eos Nova", 0, 0, playerElement); // player-controlled
+    const esoNovaShip = new Player("Eos Nova", 0, 0, playerElement, area); // player-controlled
     const npc = new NonPlayableCharacter(npcElement, npcArea);
     npc.spawn();
-    //SpawnNPC();
-    //  MoveNPC();
   });
 
   return (
     <div class={styles.App}>
-      <div class={styles.Area}>
+      <div ref={area} class={styles.Area}>
         <div class={styles.Player_Area}>
           <div class={styles.PlayerCharacter} ref={playerElement}>
             <img src={playerImg}></img>

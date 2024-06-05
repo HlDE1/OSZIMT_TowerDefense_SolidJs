@@ -1,9 +1,10 @@
 export default class NonPlayableCharacter {
-  padding = 20;
+  padding = 15;
   element: HTMLImageElement;
   npcArea: HTMLDivElement;
   positionX = 0;
   positionY = 0;
+  speed = 5;
   constructor(element: HTMLImageElement, npcArea: HTMLDivElement) {
     this.element = element;
     this.npcArea = npcArea;
@@ -15,9 +16,12 @@ export default class NonPlayableCharacter {
     this.element.style.left = `${this.positionX}px`;
     this.move();
   }
+
   move() {
     setInterval(() => {
-      this.positionX -= 5;
+      if (this.positionX <= -this.padding) return;
+
+      this.positionX -= this.speed;
       this.element.style.left = `${this.positionX}px`;
     }, 100);
   }
