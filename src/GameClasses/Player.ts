@@ -9,6 +9,8 @@ export default class Player {
   //TODO: weapons
   weapons?: any[];
   selectedWeapon?: any;
+  currentAngle = 0.25;
+
   constructor(name: string, posX: number, posY: number, player?: HTMLDivElement) {
     this.name = name;
     this.posX = posX;
@@ -29,12 +31,10 @@ export default class Player {
     return this.posY;
   }
 
-  currentAngle = 0.25;
-
   rotate(input: string) {
     if (!this.player) return;
 
-    const changeRate = 0.02;
+    const changeRate = 0.03;
 
     if (input === "w") {
       this.currentAngle -= changeRate;
@@ -42,7 +42,6 @@ export default class Player {
       this.currentAngle += changeRate;
     }
 
-    console.log(this.currentAngle);
     this.player.style.transform = `rotate(${this.currentAngle}turn)`;
   }
 

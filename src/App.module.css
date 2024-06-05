@@ -5,7 +5,6 @@
   background-color: #240f32;
 }
 
-
 .PlayerCharacter {
   position: absolute;
   transform: rotateZ(0.25turn);
@@ -14,7 +13,7 @@
   align-self: center;
 }
 
-.Area{
+.Area {
   display: flex;
   background-color: blue;
   width: 100%;
@@ -22,12 +21,21 @@
   align-self: center;
 }
 
-.Player_Area{
+.Player_Area {
   display: flex;
   flex: 1;
   background-color: green;
 }
-.NPC_Area{
+.NPC_Area {
+  position: relative;
   flex: 2;
   background-color: red;
+}
+
+.NPC_Style {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  transform: rotateZ(0.25turn);
+  transition: left 100ms;
 }
