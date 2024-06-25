@@ -31,7 +31,6 @@ export default class Weapon {
   }
 
   fire(event: KeyboardEvent) {
-    console.log("fire");
     if (event.key !== " " || !this.player?.player) return;
 
     const weapon = this.createWeapon();
@@ -53,8 +52,9 @@ export default class Weapon {
       const isX_OutOfBounds = weaponX_Pos > this.area.clientWidth || weaponX_Pos < 0;
       const isY_OutOfBounds =
         this.area.clientHeight - weaponSpeed > weaponY_Pos ||
-        weaponY_Pos > this.area.clientHeight * 2;
+        weaponY_Pos > this.area.clientHeight * 2 - weaponSpeed;
 
+      console.log(weaponY_Pos);
       if (isX_OutOfBounds || isY_OutOfBounds) {
         clearInterval(interval);
         this.area.removeChild(weapon);
