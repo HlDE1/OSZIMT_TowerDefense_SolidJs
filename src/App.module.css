@@ -3,6 +3,14 @@
   width: 100vw;
   height: 100vh;
   background-color: #240f32;
+  user-select: none;
+  overflow: hidden;
+}
+
+.Player_Area {
+  display: flex;
+  flex: 1;
+  background-color: green;
 }
 
 .PlayerCharacter {
@@ -21,15 +29,10 @@
   align-self: center;
 }
 
-.Player_Area {
-  display: flex;
-  flex: 1;
-  background-color: green;
-}
 .NPC_Area {
   position: relative;
-  flex: 2;
-  background-color: red;
+  flex: 5;
+  background-color: rgb(174, 0, 255);
 }
 
 .NPC_Style {

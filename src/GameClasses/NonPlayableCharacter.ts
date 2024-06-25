@@ -18,6 +18,7 @@ export default class NonPlayableCharacter {
   }
 
   move() {
+    //TODO: add npc attack logic
     setInterval(() => {
       if (this.positionX <= -this.padding) return;
 

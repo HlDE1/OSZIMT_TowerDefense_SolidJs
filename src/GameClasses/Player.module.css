@@ -1,7 +1,39 @@
-.WeaponStyle {
+.player_weapon {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  font-size: 2rem;
+  color: #ff6600;
+  height: 8px;
+  background: linear-gradient(45deg, #ff6600, #ff3300, #ffcc00);
+  /* animation: flicker 1.5s infinite alternate; */
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: left 150ms, top 150ms;
+}
+
+.player_weapon::before {
+  content: "";
   border-radius: 100px;
-  background-color: blue;
+  position: absolute;
+  height: 8px;
+  width: 30px;
+  background: linear-gradient(45deg, #ff6600, #ff3300, #ffcc00);
+  filter: blur(1px);
+  opacity: 1;
+  /* z-index: -1; */
+  animation: flicker 2s infinite alternate;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
