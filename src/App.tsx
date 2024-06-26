@@ -15,25 +15,27 @@ let npcArea!: HTMLImageElement;
 
 function checkCollisions(npc: NonPlayableCharacter, weapon?: Weapon) {
   const npcBox = npc.getBoundingBox();
-  const weaponBox = weapon?.getBoundingBox();
+  if (!npcBox || !weapon) return false;
 
-  if (!npcBox || !weaponBox) return false;
+  for (const bullet of weapon.bullets) {
+    const bulletBox = bullet.element.getBoundingClientRect();
 
-  const xAxis = weaponBox.left < npcBox.right && weaponBox.right > npcBox.left;
-  const yAxis = weaponBox.top < npcBox.bottom && weaponBox.bottom > npcBox.top;
-  console.log(xAxis && yAxis);
+    const xAxis = bulletBox.left < npcBox.right && bulletBox.right > npcBox.left;
+    const yAxis = bulletBox.top < npcBox.bottom && bulletBox.bottom > npcBox.top;
 
-  if (xAxis && yAxis) {
-    //weapon?.removeBullet();
-    return true;
+    if (xAxis && yAxis) {
+      bullet.remove();
+      return true;
+    }
   }
+
   return false;
 }
 
 const App: Component = () => {
   onMount(() => {
     const npcs: NonPlayableCharacter[] = [new NonPlayableCharacter(npcElement, npcArea)];
-    //   npcs[0].spawn();
+    npcs[0].spawn();
 
     const player1 = new Player("player1", 0, 0, playerElement, area);
 

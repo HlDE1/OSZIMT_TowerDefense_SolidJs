@@ -9,6 +9,7 @@ export default class Bullet {
   x: number;
   y: number;
   onRemove: (bullet: Bullet) => void;
+  onMove?: (xCoord: number, yCoord: number) => void;
 
   constructor(
     x: number,
@@ -51,6 +52,7 @@ export default class Bullet {
 
       this.element.style.left = `${this.x}px`;
       this.element.style.top = `${this.y}px`;
+      this.onMove?.(this.x, this.y);
     }, 100);
   }
 

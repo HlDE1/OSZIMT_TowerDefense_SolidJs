@@ -7,7 +7,7 @@ export default class Player {
   posY: number;
   player?: HTMLDivElement;
   weapons?: Weapon[];
-  selectedWeapon?: any;
+  selectedWeapon?: Weapon;
   currentAngle = 0.25;
   rotationRate = 0.03;
   area: HTMLDivElement;
