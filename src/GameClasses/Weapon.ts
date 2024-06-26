@@ -41,6 +41,7 @@ export default class Weapon {
     let weaponX_Pos = weaponRect.left;
     let weaponY_Pos = weaponRect.top;
 
+    const playerHeight = this.player.player.getBoundingClientRect().height;
     const weaponSpeed = 30;
     const rotationAngle = -0.25 + this.player.currentAngle;
     const radianAngle = rotationAngle * 2 * Math.PI;
@@ -51,10 +52,10 @@ export default class Weapon {
 
       const isX_OutOfBounds = weaponX_Pos > this.area.clientWidth || weaponX_Pos < 0;
       const isY_OutOfBounds =
-        this.area.clientHeight - weaponSpeed > weaponY_Pos ||
-        weaponY_Pos > this.area.clientHeight * 2 - weaponSpeed;
+        this.area.clientHeight + this.area.offsetTop < weaponY_Pos ||
+        this.area.offsetTop > weaponY_Pos;
 
-      console.log(weaponY_Pos);
+      console.log("moving");
       if (isX_OutOfBounds || isY_OutOfBounds) {
         clearInterval(interval);
         this.area.removeChild(weapon);
