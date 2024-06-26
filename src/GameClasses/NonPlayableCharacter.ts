@@ -5,11 +5,14 @@ export default class NonPlayableCharacter {
   positionX = 0;
   positionY = 0;
   speed = 5;
+  onMoving?: (xCoord: number, yCoord: number) => void;
   constructor(element: HTMLImageElement, npcArea: HTMLDivElement) {
     this.element = element;
     this.npcArea = npcArea;
   }
-
+  getBoundingBox() {
+    return this.element.getBoundingClientRect();
+  }
   spawn() {
     const npcAreaRect = this.npcArea.getBoundingClientRect();
     this.positionX = npcAreaRect.width - this.element.clientWidth + this.padding;
@@ -24,6 +27,8 @@ export default class NonPlayableCharacter {
 
       this.positionX -= this.speed;
       this.element.style.left = `${this.positionX}px`;
+
+      this.onMoving?.(this.positionX, this.positionY);
     }, 100);
   }
 }

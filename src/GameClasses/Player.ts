@@ -11,6 +11,7 @@ export default class Player {
   currentAngle = 0.25;
   rotationRate = 0.03;
   area: HTMLDivElement;
+  onWeaponTrace?: (xCoord: number, yCoord: number) => void;
 
   constructor(
     name: string,
@@ -47,7 +48,13 @@ export default class Player {
     if (!this.player) return;
 
     this.rotate(event);
-    this?.weapons?.[0].fire(event);
+
+    this?.weapons?.forEach((weapon) => {
+      if (!weapon) return;
+
+      weapon.fire(event);
+      weapon.onWeaponTrace = this.onWeaponTrace;
+    });
   }
 
   rotate(event: KeyboardEvent) {

@@ -1,3 +1,4 @@
+import Bullet from "./Bullet";
 import Player from "./Player";
 import styles from "./Weapon.module.css";
 
@@ -6,6 +7,9 @@ export default class Weapon {
   speed: number;
   area: HTMLDivElement;
   player?: Player;
+  element?: HTMLDivElement;
+  onWeaponTrace?: (xCoord: number, yCoord: number) => void;
+  bullets: Bullet[] = [];
 
   constructor(damage: number, speed: number, area: HTMLDivElement, player?: Player) {
     this.damage = damage;
@@ -14,56 +18,47 @@ export default class Weapon {
     this.player = player;
   }
 
-  createWeapon() {
+  getBoundingBox() {
+    return this.element?.getBoundingClientRect();
+  }
+
+  createBullet() {
     if (!this.player?.player) return;
 
-    const weaponElement = document.createElement("div");
-    weaponElement.classList.add(styles.player_weapon);
-    this.area.appendChild(weaponElement);
+    const bulletElement = document.createElement("div");
+    bulletElement.classList.add(styles.player_weapon);
+    this.area.appendChild(bulletElement);
 
     const playerRect = this.player.player.getBoundingClientRect();
-    const weaponRect = weaponElement?.getBoundingClientRect();
+    const bulletReact = bulletElement?.getBoundingClientRect();
+    const xCoord = `${playerRect.left + playerRect.width / 2}px`;
+    const yCoord = `${playerRect.top + playerRect.height / 2 - bulletReact.height / 2}px`;
 
-    weaponElement.style.top = `${playerRect.top + playerRect.height / 2 - weaponRect.height / 2}px`;
-    weaponElement.style.left = `${playerRect.left + playerRect.width / 2}px`;
+    bulletElement.style.left = xCoord;
+    bulletElement.style.top = yCoord;
 
-    return weaponElement;
+    return bulletElement;
   }
 
   fire(event: KeyboardEvent) {
     if (event.key !== " " || !this.player?.player) return;
 
-    const weapon = this.createWeapon();
-    if (!weapon) return;
+    const playerRect = this.player.player.getBoundingClientRect();
+    const x = playerRect.left + playerRect.width / 2;
+    const y = playerRect.top + playerRect.height / 2;
+    const angle = -0.25 + this.player.currentAngle;
 
-    weapon.style.rotate = `${-0.25 + this.player.currentAngle}turn`;
-    const weaponRect = weapon.getBoundingClientRect();
-    let weaponX_Pos = weaponRect.left;
-    let weaponY_Pos = weaponRect.top;
+    const bullet = new Bullet(x, y, this.speed, angle, this.area, (bullet) =>
+      this.removeBullet(bullet)
+    );
+    this.bullets.push(bullet);
+    bullet.move();
+  }
 
-    const playerHeight = this.player.player.getBoundingClientRect().height;
-    const weaponSpeed = 30;
-    const rotationAngle = -0.25 + this.player.currentAngle;
-    const radianAngle = rotationAngle * 2 * Math.PI;
-
-    const interval = setInterval(() => {
-      weaponX_Pos += weaponSpeed * Math.cos(radianAngle);
-      weaponY_Pos += weaponSpeed * Math.sin(radianAngle);
-
-      const isX_OutOfBounds = weaponX_Pos > this.area.clientWidth || weaponX_Pos < 0;
-      const isY_OutOfBounds =
-        this.area.clientHeight + this.area.offsetTop < weaponY_Pos ||
-        this.area.offsetTop > weaponY_Pos;
-
-      console.log("moving");
-      if (isX_OutOfBounds || isY_OutOfBounds) {
-        clearInterval(interval);
-        this.area.removeChild(weapon);
-        return;
-      }
-
-      weapon.style.left = `${weaponX_Pos}px`;
-      weapon.style.top = `${weaponY_Pos}px`;
-    }, 100);
+  removeBullet(bullet: Bullet) {
+    const index = this.bullets.indexOf(bullet);
+    if (index !== -1) {
+      this.bullets.splice(index, 1);
+    }
   }
 }
